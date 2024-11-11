@@ -18,8 +18,8 @@ use yii\widgets\Pjax;
 use modules\users\assets\UserAsset;
 use modules\users\Module;
 
-$this->title = \Yii::t('app/modules/organization', 'Организации');
-$this->params['breadcrumbs'][] = ['label' => \Yii::t('app/modules/organization', 'Организации'), 'url' => ['default/index']];
+$this->title = \Yii::t('app/modules/organization', 'Организации2');
+$this->params['breadcrumbs'][] = ['label' => \Yii::t('app/modules/organization', 'Организации2'), 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 UserAsset::register($this);
