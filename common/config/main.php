@@ -9,7 +9,7 @@ use modules\organization\Module as OrganizationModule;
 
 
 return [
-    'name' => 'Advanced2',
+    'name' => 'Advanced',
     'timeZone' => 'Asia/Almaty',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
