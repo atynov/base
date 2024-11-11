@@ -89,14 +89,7 @@ class DefaultController extends Controller
     public function actionLogin()
     {
 
-        try {
-            $pdo = new PDO('pgsql:host=localhost;dbname=your_db_name', 'username', 'password');
-            echo "Connection successful!";
-        } catch (\PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
 
-        die();
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
