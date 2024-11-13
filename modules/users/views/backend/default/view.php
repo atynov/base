@@ -10,11 +10,11 @@ use modules\users\Module;
 use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 
-$this->title = Module::t('module', 'View');
+$this->title = Module::t('module', 'Көру');
 $this->params['title']['small'] = $model->username;
 
-$this->params['breadcrumbs'][] = ['label' => Module::t('module', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = Module::t('module', 'View');
+$this->params['breadcrumbs'][] = ['label' => Module::t('module', 'Қолданушылар'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Module::t('module', 'Көру');
 
 ?>
 
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = Module::t('module', 'View');
             <?= Tabs::widget([
                 'items' => [
                     [
-                        'label' => Module::t('module', 'Profile'),
+                        'label' => Module::t('module', 'Профиль'),
                         'content' => $this->render('tabs/_view_profile', [
                             'model' => $model,
                             'assignModel' => $assignModel,

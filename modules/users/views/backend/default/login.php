@@ -11,11 +11,11 @@ use modules\users\Module;
  * @var $model LoginForm
  */
 
-$this->title = Module::t('module', 'Login');
+$this->title = Module::t('module', 'Кіру');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<p class="login-box-msg"><?= Module::t('module', 'Login to the site to start the session') ?></p>
+<p class="login-box-msg"><?= Module::t('module', 'Сеансты бастау үшін сайтқа кіріңіз') ?></p>
 
 <?php $form = ActiveForm::begin([
     'id' => 'login-form'
@@ -24,14 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="form-group has-feedback">
     <?= $form->field($model, 'email')->textInput([
         'class' => 'form-control',
-        'placeholder' => Module::t('module', 'Email')
+        'placeholder' => Module::t('module', 'Электрондық пошта')
     ])->label(false) ?>
     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 </div>
 <div class="form-group has-feedback">
     <?= $form->field($model, 'password')->passwordInput([
         'class' => 'form-control',
-        'placeholder' => Module::t('module', 'Password')
+        'placeholder' => Module::t('module', 'Құпиясөз')
     ])->label(false) ?>
     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 </div>
@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col-xs-4">
-        <?= Html::submitButton(Module::t('module', 'Sign In'), [
+        <?= Html::submitButton(Module::t('module', 'Кіру'), [
             'class' => 'btn btn-primary btn-block btn-flat',
             'name' => 'login-button'
         ]) ?>

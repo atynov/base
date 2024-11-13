@@ -79,7 +79,7 @@ class Module extends \yii\base\Module
         $user = Yii::$app->user;
 
         return [
-            'label' => '<i class="fa fa-users"></i> <span>' . Yii::t('app', 'Users') . '</span>',
+            'label' => '<i class="fa fa-users"></i> <span>' . Yii::t('app', 'Пайдаланушылар') . '</span>',
             'url' => ['/users/default/index'],
             'visible' => $user->can(\modules\rbac\models\Permission::PERMISSION_MANAGER_USERS)
         ];

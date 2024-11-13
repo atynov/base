@@ -66,13 +66,13 @@ class UserProfile extends \yii\db\ActiveRecord
     {
         return [
             'id' => Module::t('module', 'ID'),
-            'user_id' => Module::t('module', 'User'),
-            'first_name' => Module::t('module', 'First Name'),
-            'last_name' => Module::t('module', 'Last Name'),
-            'email_gravatar' => Module::t('module', 'Email Gravatar'),
-            'last_visit' => Module::t('module', 'Last Visit'),
-            'created_at' => Module::t('module', 'Created'),
-            'updated_at' => Module::t('module', 'Updated'),
+            'user_id' => Module::t('module', 'Қолданушы'),
+            'first_name' => Module::t('module', 'Аты'),
+            'last_name' => Module::t('module', 'Тегі'),
+            'email_gravatar' => Module::t('module', 'Gravatar электрондық пошта'),
+            'last_visit' => Module::t('module', 'Соңғы кіру'),
+            'created_at' => Module::t('module', 'Құрылған уақыты'),
+            'updated_at' => Module::t('module', 'Жаңартылған уақыты'),
         ];
     }
 
@@ -82,5 +82,18 @@ class UserProfile extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->created_at = date('Y-m-d H:i:s');
+            }
+            $this->updated_at = date('Y-m-d H:i:s');
+
+            return true;
+        }
+        return false;
     }
 }

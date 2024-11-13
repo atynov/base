@@ -43,6 +43,11 @@ $this->params['breadcrumbs'][] = Module::t('module', 'Update');
 
                     <?= $form->field($model, 'status')->dropDownList($model->statusesArray) ?>
 
+
+                    <?= $form->field($model, 'organization_id')->dropDownList($organizations, [
+                        'prompt' => Yii::t('app', 'Выберите организацию')
+                    ]) ?>
+
                     <hr>
 
                     <?= $form->field($model->profile, 'first_name')->textInput([

@@ -3,6 +3,7 @@
 namespace modules\users\models;
 
 use common\traits\ParamsTrait;
+use modules\organization\models\Organization;
 use Yii;
 use yii\base\Exception;
 use yii\db\ActiveQuery;
@@ -36,6 +37,8 @@ use modules\users\Module;
  * @property array $statusesArray
  * @property string $labelMailConfirm
  * @property string $newPassword
+ * @property integer $organization_id
+ * @property Organization $organization
  *
  * @method touch() TimestampBehavior
  */
@@ -100,10 +103,11 @@ class User extends BaseUser
             [['password'], 'required', 'on' => self::SCENARIO_ADMIN_CREATE],
             [['password'], 'string', 'min' => self::LENGTH_STRING_PASSWORD_MIN, 'max' => self::LENGTH_STRING_PASSWORD_MAX],
 
-            [[
-                'active_organization_id',
-                'active_role'
-            ], 'safe']
+            [['active_organization_id', 'active_role'], 'safe'],
+
+            // Добавление правила для organization_id
+            ['organization_id', 'integer'],
+            ['organization_id', 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['organization_id' => 'id']],
         ];
     }
 
@@ -124,19 +128,20 @@ class User extends BaseUser
     {
         return [
             'id' => Module::t('module', 'ID'),
-            'username' => Module::t('module', 'Username'),
-            'email' => Module::t('module', 'Email'),
-            'auth_key' => Module::t('module', 'Auth Key'),
-            'password_hash' => Module::t('module', 'Hash Password'),
-            'password_reset_token' => Module::t('module', 'Password Token'),
-            'email_confirm_token' => Module::t('module', 'Email Confirm Token'),
-            'created_at' => Module::t('module', 'Created'),
-            'updated_at' => Module::t('module', 'Updated'),
-            'status' => Module::t('module', 'Status'),
-            'userRoleName' => Module::t('module', 'User Role Name'),
-            'password' => Module::t('module', 'Password')
+            'username' => Module::t('module', 'Қолданушы аты'),
+            'email' => Module::t('module', 'Электрондық пошта'),
+            'auth_key' => Module::t('module', 'Аутентификация кілті'),
+            'password_hash' => Module::t('module', 'Құпиясөз хэші'),
+            'password_reset_token' => Module::t('module', 'Құпиясөзді қалпына келтіру белгісі'),
+            'email_confirm_token' => Module::t('module', 'Электрондық поштаны растау белгісі'),
+            'created_at' => Module::t('module', 'Құрылған уақыты'),
+            'updated_at' => Module::t('module', 'Жаңартылған уақыты'),
+            'status' => Module::t('module', 'Мәртебесі'),
+            'userRoleName' => Module::t('module', 'Қолданушы рөлі'),
+            'password' => Module::t('module', 'Құпиясөз')
         ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -335,10 +340,13 @@ class User extends BaseUser
         if (parent::beforeSave($insert)) {
             if ($insert) {
                 $this->generateAuthKey();
+                $this->created_at = date('Y-m-d H:i:s');
             }
+            $this->updated_at = date('Y-m-d H:i:s');
             if (!empty($this->newPassword)) {
                 $this->setPassword($this->newPassword);
             }
+
             return true;
         }
         return false;
@@ -376,5 +384,16 @@ class User extends BaseUser
             }
         }
         return parent::beforeDelete();
+    }
+
+
+
+    /**
+     * Связь с моделью Organization
+     * @return \common\components\ActiveQuery
+     */
+    public function getOrganization()
+    {
+        return $this->hasOne(Organization::class, ['id' => 'organization_id']);
     }
 }

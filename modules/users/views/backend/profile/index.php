@@ -10,7 +10,7 @@ use yii\helpers\Html;
 use modules\users\Module;
 use yii\bootstrap\Tabs;
 
-$this->title = Module::t('module', 'Profile');
+$this->title = Module::t('module', 'Профиль');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

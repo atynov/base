@@ -9,8 +9,8 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use modules\users\Module;
 
-$this->title = Module::t('module', 'Confirm deleting profile');
-$this->params['breadcrumbs'][] = ['label' => Module::t('module', 'Profile'), 'url' => ['index']];
+$this->title = Module::t('module', 'Профильді жоюды растау');
+$this->params['breadcrumbs'][] = ['label' => Module::t('module', 'Профиль'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="users-backend-profile-delete">
@@ -26,12 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'currentPassword', ['enableAjaxValidation' => true])->passwordInput([
                 'maxlength' => true,
                 'placeholder' => true,
-            ]) ?>
+            ])->label('Қазіргі құпиясөз') ?>
         </div>
         <div class="box-footer">
-
             <div class="form-group">
-                <?= Html::submitButton('<span class="glyphicon glyphicon-trash"></span> ' . Module::t('module', 'Delete'), [
+                <?= Html::submitButton('<span class="glyphicon glyphicon-trash"></span> ' . Module::t('module', 'Жою'), [
                     'class' => 'btn btn-danger',
                     'name' => 'submit-button',
                 ]) ?>

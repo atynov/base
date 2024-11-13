@@ -6,6 +6,7 @@ use modules\users\Module as UserModule;
 use modules\rbac\Module as RbacModule;
 use modules\news\Module as NewsModule;
 use modules\organization\Module as OrganizationModule;
+use modules\directory\Module as DirectoryModule;
 
 
 return [
@@ -26,7 +27,7 @@ return [
                 'app' => [
                     'class' => 'yii\i18n\PhpMessageSource',
                     'basePath' => '@app/messages',
-                    'sourceLanguage' => 'en',
+                    'sourceLanguage' => 'kk',
                     'fileMap' => [
                         'app' => 'app.php',
                         'app/error' => 'error.php',
@@ -61,6 +62,9 @@ return [
         ],
         'organization' => [
             'class' => OrganizationModule::class
+        ],
+        'directory' => [
+            'class' => DirectoryModule::class
         ],
     ]
 ];

@@ -60,18 +60,14 @@ class Module extends BaseModule
         $user = Yii::$app->user;
 
         return [
-            'label' => '<i class="fa fa-building" aria-hidden="true"></i> <span>' . Yii::t('app', 'Организации') . '</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>',
+            'label' => '<i class="fa fa-building" aria-hidden="true"></i> <span>' . Yii::t('app', 'Мешіттер') . '</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>',
             'url' => ['/organization/default'],
             'options' => ['class' => 'treeview'],
             'visible' => Yii::$app->user->can(\modules\rbac\models\Permission::PERMISSION_MANAGER_RBAC),
             'items' => [
                 [
-                    'label' => '<i class="fa fa-circle-o"> </i><span>' . Yii::t('app', 'Организации') . '</span>',
+                    'label' => '<i class="fa fa-circle-o"> </i><span>' . Yii::t('app', 'Мешіттер') . '</span>',
                     'url' => ['/organization/default'],
-                ],
-                [
-                    'label' => '<i class="fa fa-circle-o"> </i><span>' . Yii::t('app', 'Категории') . '</span>',
-                    'url' => ['/organization/cats'],
                 ],
             ],
         ];

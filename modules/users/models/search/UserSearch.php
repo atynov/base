@@ -21,6 +21,8 @@ class UserSearch extends User
     public $date_from;
     public $date_to;
 
+    public $organization_id;
+
     /**
      * @inheritdoc
      * @return array
@@ -29,6 +31,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'status'], 'integer'],
+            [['organization_id'], 'integer'],
             [['username', 'email', 'role', 'userRoleName', 'date_from', 'date_to'], 'safe'],
         ];
     }
@@ -49,7 +52,7 @@ class UserSearch extends User
     protected function getQuery()
     {
         $query = User::find();
-        $query->innerJoinWith('profile', 'profile.user_id = id');
+        $query->joinWith(['profile', 'organization']); // Join with organization table
         $query->leftJoin('{{%auth_assignment}}', '{{%auth_assignment}}.user_id = {{%user}}.id');
         return $query;
     }
@@ -122,6 +125,7 @@ class UserSearch extends User
             'id' => $this->id,
             'status' => $this->status,
             'item_name' => $this->userRoleName,
+            'organization_id' => $this->organization_id, // Apply organization filter
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])

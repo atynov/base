@@ -101,20 +101,7 @@ class Module extends \common\components\BaseModule
         $user = Yii::$app->user;
 
         return [
-            'label' => '<i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>' . Yii::t('app', 'Новости') . '</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>',
-            'url' => ['/news/news'],
-            'options' => ['class' => 'treeview'],
-//                    'visible' => Yii::$app->user->can(\modules\rbac\models\Permission::PERMISSION_MANAGER_RBAC),
-            'items' => [
-                [
-                    'label' => '<i class="fa fa-circle-o"> </i><span>' . Yii::t('app', 'Новости') . '</span>',
-                    'url' => ['/news/news'],
-                ],
-                [
-                    'label' => '<i class="fa fa-circle-o"> </i><span>' . Yii::t('app', 'Категории') . '</span>',
-                    'url' => ['/news/cats'],
-                ],
-            ],
+
         ];
     }
 }

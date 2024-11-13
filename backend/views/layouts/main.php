@@ -3,11 +3,7 @@
 use backend\assets\AppAsset;
 use backend\assets\plugins\iCheckAsset;
 use backend\widgets\control\ControlSidebar;
-use backend\widgets\navbar\MessagesWidget;
-use backend\widgets\navbar\NotificationsWidget;
-use backend\widgets\navbar\TasksWidget;
 use backend\widgets\search\SearchSidebar;
-use modules\rbac\models\Permission;
 use modules\users\models\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -17,7 +13,6 @@ use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 use modules\users\widgets\AvatarWidget;
 use modules\users\Module as UserModule;
-use modules\rbac\Module as RbacModule;
 
 /* @var $this View */
 /* @var $content string */
@@ -27,12 +22,10 @@ AppAsset::register($this);
 
 /** @var yii\web\User $user */
 $user = Yii::$app->user;
-/* @var User $identity */
+/** @var User $identity */
 $identity = $user->identity;
-$fullUserName = ($identity !== null) ? $identity->getUserFullName() : Yii::t('app', 'No Authorize');
+$fullUserName = ($identity !== null) ? $identity->getUserFullName() : Yii::t('app', 'Авторланбаған');
 $assetManager = Yii::$app->assetManager;
-/** @var false|string $publishedUrl */
-$publishedUrl = $assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 $formatter = Yii::$app->formatter;
 $homeUrl = is_string(Yii::$app->homeUrl) ? Yii::$app->homeUrl : '/';
 ?>
@@ -52,82 +45,35 @@ $homeUrl = is_string(Yii::$app->homeUrl) ? Yii::$app->homeUrl : '/';
 
 <div class="wrapper">
     <header class="main-header">
-
         <a href="<?= $homeUrl ?>" class="logo">
             <span class="logo-mini"><b>A</b>LT</span>
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+            <span class="logo-lg"><b>Әкімшілік</b> Панель</span>
         </a>
         <nav class="navbar navbar-static-top">
-            <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <span class="sr-only">Навигацияны ашу</span>
             </a>
-
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-
-                    <?= MessagesWidget::widget([
-                        'status' => true,
-                        'image' => $publishedUrl ? Html::img($publishedUrl . '/img/user2-160x160.jpg', [
-                            'class' => 'img-circle',
-                            'alt' => 'User Image'
-                        ]) : '']) ?>
-
-                    <?= NotificationsWidget::widget(['status' => true]) ?>
-
-                    <?= TasksWidget::widget(['status' => true]) ?>
-
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <?= AvatarWidget::widget([
-                                'imageOptions' => [
-                                    'class' => 'user-image'
-                                ]
-                            ]) ?>
+                            <?= AvatarWidget::widget(['imageOptions' => ['class' => 'user-image']]) ?>
                             <span class="hidden-xs"><?= $fullUserName ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="user-header">
                                 <?= AvatarWidget::widget() ?>
-                                <p>
-                                    <?= $fullUserName ?>
-                                    <small>
-                                        <?= Yii::t('app', 'Member since') . ' ' . $formatter->asDatetime($identity->created_at, 'LLL yyyy') ?>
-                                    </small>
-                                </p>
+                                <p><?= $fullUserName ?><small><?= Yii::t('app', 'Қосылған күн:') ?> <?= $formatter->asDatetime($identity->created_at, 'LLL yyyy') ?></small></p>
                             </li>
-                            <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
-                            </li>
-
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="<?= Url::to(['/users/profile/index']) ?>"
-                                       class="btn btn-default btn-flat"><?= Yii::t('app', 'Profile') ?></a>
+                                    <a href="<?= Url::to(['/users/profile/index']) ?>" class="btn btn-default btn-flat"><?= Yii::t('app', 'Профиль') ?></a>
                                 </div>
                                 <div class="pull-right">
-                                    <?= Html::beginForm(['/users/default/logout'])
-                                    . Html::submitButton(Yii::t('app', 'Sign Out'), ['class' => 'btn btn-default btn-flat logout'])
-                                    . Html::endForm() ?>
+                                    <?= Html::beginForm(['/users/default/logout']) . Html::submitButton(Yii::t('app', 'Шығу'), ['class' => 'btn btn-default btn-flat logout']) . Html::endForm() ?>
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                     </li>
                 </ul>
             </div>
@@ -135,26 +81,23 @@ $homeUrl = is_string(Yii::$app->homeUrl) ? Yii::$app->homeUrl : '/';
     </header>
 
     <aside class="main-sidebar">
-
         <section class="sidebar">
-
             <div class="user-panel">
                 <div class="pull-left image">
                     <?= AvatarWidget::widget() ?>
                 </div>
                 <div class="pull-left info">
                     <p><?= $fullUserName ?></p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> <?= Yii::t('app', 'Online') ?></a>
+                    <a href="#"><i class="fa fa-circle text-success"></i> <?= Yii::t('app', 'Қосылып тұр') ?></a>
                 </div>
             </div>
 
             <?= SearchSidebar::widget(['status' => true]) ?>
 
             <?php
-
             $items = [
                 [
-                    'label' => Yii::t('app', 'HEADER'),
+                    'label' => Yii::t('app', 'БАСТЫ БӨЛІМДЕР'),
                     'options' => ['class' => 'header']
                 ]
             ];
@@ -163,7 +106,7 @@ $homeUrl = is_string(Yii::$app->homeUrl) ? Yii::$app->homeUrl : '/';
                 foreach (Yii::$app->modules as $module) {
                     if (is_object($module) && isset($module->isBackend) && $module->isBackend) {
                         $items[] = $module::backendMenuItems();
-                    } else if (is_array($module) && isset($module['isBackend']) && $module['isBackend']) {
+                    } elseif (is_array($module) && isset($module['isBackend']) && $module['isBackend']) {
                         if (method_exists($module['class'], 'backendMenuItems')) {
                             $items[] = $module['class']::backendMenuItems();
                         }
@@ -190,7 +133,7 @@ $homeUrl = is_string(Yii::$app->homeUrl) ? Yii::$app->homeUrl : '/';
                 echo Html::encode($this->title) . $small ?>
             </h1>
             <?= Breadcrumbs::widget([
-                'homeLink' => ['label' => '<i class="fa fa-dashboard"></i> ' . Yii::t('app', 'Home'), 'url' => Url::to(['/main/default/index'])],
+                'homeLink' => ['label' => '<i class="fa fa-dashboard"></i> ' . Yii::t('app', 'Басты бет'), 'url' => Url::to(['/main/default/index'])],
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 'encodeLabels' => false
             ]) ?>
@@ -199,22 +142,14 @@ $homeUrl = is_string(Yii::$app->homeUrl) ? Yii::$app->homeUrl : '/';
         <section class="content">
             <?= $content ?>
         </section>
-
     </div>
 
     <footer class="main-footer">
-
-        <div class="pull-right hidden-xs">
-
-        </div>
-        <strong>&copy; <?= date('Y') ?> <a
-                    href="#"><?= Yii::$app->name ?></a>.</strong> <?= Yii::t('app', 'All rights reserved.') ?>
+        <div class="pull-right hidden-xs"></div>
+        <strong>&copy; <?= date('Y') ?> <a href="#"><?= Yii::$app->name ?></a>.</strong> <?= Yii::t('app', 'Барлық құқықтар қорғалған.') ?>
     </footer>
 
-    <?= ControlSidebar::widget([
-        'status' => true,
-        'demo' => false
-    ]) ?>
+    <?= ControlSidebar::widget(['status' => true, 'demo' => false]) ?>
 </div>
 
 <?php $this->endBody() ?>

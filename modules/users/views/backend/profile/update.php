@@ -9,8 +9,8 @@
 use modules\users\Module;
 use yii\bootstrap\Tabs;
 
-$this->title = Module::t('module', 'Update');
-$this->params['breadcrumbs'][] = ['label' => Module::t('module', 'Profile'), 'url' => ['index']];
+$this->title = Module::t('module', 'Жаңарту');
+$this->params['breadcrumbs'][] = ['label' => Module::t('module', 'Профиль'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="users-backend-profile-update">
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'options' => ['role' => 'tablist'],
             'items' => [
                 [
-                    'label' => Module::t('module', 'Profile'),
+                    'label' => Module::t('module', 'Профиль'),
                     'content' => $this->render('tabs/_update_profile', [
                         'model' => $model->profile,
                     ]),
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'active' => (!Yii::$app->request->get('tab') || (Yii::$app->request->get('tab') == 'profile')) ? true : false,
                 ],
                 [
-                    'label' => Module::t('module', 'Password'),
+                    'label' => Module::t('module', 'Құпиясөз'),
                     'content' => $this->render('tabs/_update_password', [
                         'model' => $passwordForm,
                     ]),
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'active' => (Yii::$app->request->get('tab') == 'password') ? true : false,
                 ],
                 [
-                    'label' => Module::t('module', 'Avatar'),
+                    'label' => Module::t('module', 'Аватар'),
                     'content' => $this->renderFile(Yii::getAlias('@modules/users/views/common/profile/tabs/_update_avatar.php'), [
                         'model' => $model,
                     ]),

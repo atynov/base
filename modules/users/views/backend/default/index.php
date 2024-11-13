@@ -19,7 +19,7 @@ use backend\assets\plugins\DatePickerAsset;
 use modules\users\assets\UserAsset;
 use modules\users\Module;
 
-$this->title = Module::t('module', 'Users');
+$this->title = Module::t('module', 'Қолданушылар');
 $this->params['breadcrumbs'][] = $this->title;
 
 UserAsset::register($this);
@@ -78,7 +78,7 @@ $this->registerJs($js, View::POS_END);
                 <p>
                     <?= Html::a('<span class="fa fa-plus"></span> ', ['create'], [
                         'class' => 'btn btn-block btn-success',
-                        'title' => Yii::t('app', 'Создать'),
+                        'title' => Yii::t('app', 'Қосу'),
                         'data' => [
                             'toggle' => 'tooltip',
                             'placement' => 'left',
@@ -102,12 +102,12 @@ $this->registerJs($js, View::POS_END);
                         'attribute' => 'username',
                         'filter' => Html::activeInput('text', $searchModel, 'username', [
                             'class' => 'form-control',
-                            'placeholder' => Module::t('module', '- text -'),
+                            'placeholder' => Module::t('module', '- мәтін -'),
                             'data' => [
                                 'pjax' => true,
                             ],
                         ]),
-                        'label' => Module::t('module', 'Users'),
+                        'label' => Module::t('module', 'Қолданушылар'),
                         'format' => 'raw',
                         'value' => function ($data) {
                             $view = Yii::$app->controller->view;
@@ -119,7 +119,7 @@ $this->registerJs($js, View::POS_END);
                         'attribute' => 'email',
                         'filter' => Html::activeInput('text', $searchModel, 'email', [
                             'class' => 'form-control',
-                            'placeholder' => Module::t('module', '- text -'),
+                            'placeholder' => Module::t('module', '- мәтін -'),
                             'data' => [
                                 'pjax' => true,
                             ],
@@ -130,7 +130,7 @@ $this->registerJs($js, View::POS_END);
                         'attribute' => 'status',
                         'filter' => Html::activeDropDownList($searchModel, 'status', $searchModel->statusesArray, [
                             'class' => 'form-control',
-                            'prompt' => Module::t('module', '- all -'),
+                            'prompt' => Module::t('module', '- бәрі -'),
                             'data' => [
                                 'pjax' => true,
                             ],
@@ -139,12 +139,11 @@ $this->registerJs($js, View::POS_END);
                         'value' => function ($data) {
                             /** @var object $identity */
                             $identity = Yii::$app->user->identity;
-                            /** @var \modules\users\models\User $data */
                             if ($data->id !== $identity->id && !$data->isSuperAdmin($data->id)) {
                                 return Html::a($data->statusLabelName, Url::to(['set-status', 'id' => $data->id]), [
                                         'id' => $data->id,
                                         'class' => 'link-status',
-                                        'title' => Module::t('module', 'Click to change the status'),
+                                        'title' => Module::t('module', 'Мәртебені өзгерту үшін басыңыз'),
                                         'data' => [
                                             'toggle' => 'tooltip',
                                             'pjax' => 0,
@@ -154,7 +153,7 @@ $this->registerJs($js, View::POS_END);
                                     Html::a($data->labelMailConfirm, Url::to(['send-confirm-email', 'id' => $data->id]), [
                                         'id' => 'email-link-' . $data->id,
                                         'class' => 'link-email',
-                                        'title' => Module::t('module', 'Send a link to activate your account.'),
+                                        'title' => Module::t('module', 'Тіркеу сілтемесін жіберу'),
                                         'data' => [
                                             'toggle' => 'tooltip',
                                         ],
@@ -174,7 +173,7 @@ $this->registerJs($js, View::POS_END);
                         'attribute' => 'userRoleName',
                         'filter' => Html::activeDropDownList($searchModel, 'userRoleName', $assignModel->getRolesArray(), [
                             'class' => 'form-control',
-                            'prompt' => Module::t('module', '- all -'),
+                            'prompt' => Module::t('module', '- бәрі -'),
                             'data' => [
                                 'pjax' => true,
                             ],
@@ -188,12 +187,24 @@ $this->registerJs($js, View::POS_END);
                         ],
                     ],
                     [
+                        'attribute' => 'organization_id',
+                        'label' => Module::t('module', 'Ұйым'),
+                        'value' => function ($model) {
+                            return $model->organization ? $model->organization->name['kk'] : null;
+                        },
+                        'filter' => Html::activeDropDownList($searchModel, 'organization_id',
+                            \modules\organization\models\Organization::find()->select(['name', 'id'])->indexBy('id')->column(),
+                            ['class' => 'form-control', 'prompt' => Module::t('module', '- барлығы -')]
+                        ),
+                        'headerOptions' => ['width' => '200'],
+                    ],
+                    [
                         'attribute' => 'profile.last_visit',
                         'filter' => '<div class="form-group"><div class="input-group date"><div class="input-group-addon"><i class="fa fa-calendar"></i></div>'
                             . Html::activeInput('text', $searchModel, 'date_from', [
                                 'id' => 'datepicker',
                                 'class' => 'form-control',
-                                'placeholder' => Module::t('module', '- select -'),
+                                'placeholder' => Module::t('module', '- таңдау -'),
                                 'data' => [
                                     'pjax' => true,
                                 ],
@@ -212,7 +223,7 @@ $this->registerJs($js, View::POS_END);
                         'buttons' => [
                             'view' => function ($url) {
                                 return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
-                                    'title' => Module::t('module', 'View'),
+                                    'title' => Module::t('module', 'Көру'),
                                     'data' => [
                                         'toggle' => 'tooltip',
                                         'pjax' => 0,
@@ -221,7 +232,7 @@ $this->registerJs($js, View::POS_END);
                             },
                             'update' => function ($url) {
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
-                                    'title' => Module::t('module', 'Update'),
+                                    'title' => Module::t('module', 'Өңдеу'),
                                     'data' => [
                                         'toggle' => 'tooltip',
                                         'pjax' => 0,
@@ -230,23 +241,22 @@ $this->registerJs($js, View::POS_END);
                             },
                             'delete' => function ($url, $model) {
                                 $linkOptions = [
-                                    'title' => Module::t('module', 'Delete'),
+                                    'title' => Module::t('module', 'Жою'),
                                     'data' => [
                                         'toggle' => 'tooltip',
                                         'method' => 'post',
                                         'pjax' => 0,
-                                        'confirm' => Module::t('module', 'The user "{:name}" will be marked as deleted!', [':name' => $model->username]),
+                                        'confirm' => Module::t('module', 'Қолданушы "{:name}" жойылады!', [':name' => $model->username]),
                                     ]
                                 ];
-                                /* @var $model modules\users\models\User */
                                 if ($model->isDeleted()) {
                                     $linkOptions = [
-                                        'title' => Module::t('module', 'Delete'),
+                                        'title' => Module::t('module', 'Жою'),
                                         'data' => [
                                             'toggle' => 'tooltip',
                                             'method' => 'post',
                                             'pjax' => 0,
-                                            'confirm' => Module::t('module', 'You won\'t be able to revert this!'),
+                                            'confirm' => Module::t('module', 'Қалпына келтіру мүмкін емес!'),
                                         ],
                                     ];
                                 }

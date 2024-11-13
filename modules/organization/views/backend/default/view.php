@@ -1,32 +1,52 @@
 <?php
-
-/**
- * @var $this yii\web\View
- * @var $model modules\organization\models\Content
- */
-
-use modules\users\Module;
 use yii\helpers\Html;
+use yii\widgets\DetailView;
 
-$this->title = \Yii::t('app/modules/organization', 'View');
-$this->params['title']['small'] = $model->name;
+/* @var $this yii\web\View */
+/* @var $model \modules\organization\models\Organization */
 
-$this->params['breadcrumbs'][] = ['label' => \Yii::t('app/modules/organization', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = \Yii::t('app/modules/organization', 'View');
-
+$this->title = $model->name['ru']; // Отображение на русском языке
+$this->params['breadcrumbs'][] = ['label' => 'Организации', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="organization-view">
 
-<div class="users-backend-default-view">
-    <div class="box">
-        <div class="box-header with-border">
-            <h3 class="box-title"><?= Html::encode($model->name); ?></h3>
-        </div>
-        <div >
-            <?= $model->text; ?>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-        </div>
-        <h3><?= \Yii::t('app/modules/organization', 'Список пользователей') ?></h3>
+    <p>
+        <?= Html::a('Обновить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Вы уверены, что хотите удалить эту организацию?',
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
 
-        Таблица: ФИО Роль Действия
-    </div>
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id',
+            [
+                'attribute' => 'name',
+                'value' => function ($model) {
+                    return $model->name['kk'];
+                },
+            ],
+            [
+                'attribute' => 'description',
+                'value' => function ($model) {
+                    return $model->description['kk'] ?? '';
+                },
+            ],
+            'address',
+            'status',
+            'type',
+            'cityId',
+            'created_at',
+            'updated_at',
+        ],
+    ]) ?>
 </div>
+

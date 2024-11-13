@@ -29,6 +29,7 @@ return [
                 // TODO create dynamic load
                 'modules\news\migrations',
                 'modules\organization\migrations',
+                'modules\directory\migrations',
             ]
         ],
         'fixture' => [

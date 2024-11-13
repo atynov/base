@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use common\components\ActiveQuery;
 use common\components\ActiveRecord;
+use modules\organization\models\Organization;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -23,6 +25,8 @@ use yii\web\IdentityInterface;
  * @property string $created_at
  * @property string $updated_at
  * @property string $password write-only password
+ * @property integer $organization_id
+ * @property Organization $organization
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -211,5 +215,15 @@ class User extends ActiveRecord implements IdentityInterface
 //            $fullName = ($fullName !== ' ') ? $fullName : $this->username;
 //        }
         return Html::encode(trim($this->username));
+    }
+
+
+    /**
+     * Связь с моделью Organization
+     * @return ActiveQuery
+     */
+    public function getOrganization()
+    {
+        return $this->hasOne(Organization::class, ['id' => 'organization_id']);
     }
 }

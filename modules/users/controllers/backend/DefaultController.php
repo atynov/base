@@ -2,6 +2,8 @@
 
 namespace modules\users\controllers\backend;
 
+use modules\directory\models\DicValues;
+use modules\organization\models\Organization;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
@@ -185,7 +187,8 @@ class DefaultController extends Controller
             }
         }
         return $this->render('create', [
-            'model' => $model
+            'model' => $model,
+            'organizations' => Organization::getOrganizationsList(Yii::$app->language),
         ]);
     }
 
@@ -207,7 +210,8 @@ class DefaultController extends Controller
             }
         }
         return $this->render('update', [
-            'model' => $model
+            'model' => $model,
+            'organizations' => Organization::getOrganizationsList(Yii::$app->language),
         ]);
     }
 

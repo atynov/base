@@ -42,6 +42,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Создать');
             <?= $form->field($model, 'status')->dropDownList($model->statusesArray) ?>
 
 
+
+            <?= $form->field($model, 'organization_id')->dropDownList($organizations, [
+                'prompt' => Yii::t('app', 'Выберите организацию')
+            ]) ?>
+
         </div>
         <div class="box-footer">
             <div class="form-group">
