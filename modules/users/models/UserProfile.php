@@ -51,10 +51,10 @@ class UserProfile extends \yii\db\ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'last_visit', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'last_visit'], 'integer'],
             [['first_name', 'last_name'], 'string', 'max' => 255],
             [['email_gravatar'], 'email'],
-            [['email_gravatar'], 'unique'],
+            [[ 'created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -67,7 +67,7 @@ class UserProfile extends \yii\db\ActiveRecord
         return [
             'id' => Module::t('module', 'ID'),
             'user_id' => Module::t('module', 'Қолданушы'),
-            'first_name' => Module::t('module', 'Аты'),
+            'first_name' => Module::t('module', 'Аты-жөні'),
             'last_name' => Module::t('module', 'Тегі'),
             'email_gravatar' => Module::t('module', 'Gravatar электрондық пошта'),
             'last_visit' => Module::t('module', 'Соңғы кіру'),
@@ -96,4 +96,6 @@ class UserProfile extends \yii\db\ActiveRecord
         }
         return false;
     }
+
+
 }

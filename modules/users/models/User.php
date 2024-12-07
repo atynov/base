@@ -4,6 +4,7 @@ namespace modules\users\models;
 
 use common\traits\ParamsTrait;
 use modules\organization\models\Organization;
+use modules\reports\models\Direction;
 use Yii;
 use yii\base\Exception;
 use yii\db\ActiveQuery;
@@ -57,6 +58,7 @@ class User extends BaseUser
      * @var string
      */
     public $password;
+    public $directions;
 
     /**
      * {@inheritdoc}
@@ -85,16 +87,13 @@ class User extends BaseUser
     {
         return [
             ['username', 'required'],
-            ['username', 'match', 'pattern' => '#^[\w_-]+$#i'],
+            ['username', 'match', 'pattern' => '#^[\w\s_-]+$#i'],
             ['username', 'unique', 'targetClass' => self::class, 'message' => Module::t('module', 'This username is already taken.')],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
-            ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => self::class, 'message' => Module::t('module', 'This email is already taken.')],
             ['email', 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
-            [['password_reset_token'], 'unique'],
 
             ['status', 'integer'],
             ['status', 'default', 'value' => self::STATUS_WAIT],
@@ -128,12 +127,12 @@ class User extends BaseUser
     {
         return [
             'id' => Module::t('module', 'ID'),
-            'username' => Module::t('module', 'Қолданушы аты'),
+            'username' => Module::t('module', 'Телефон'),
             'email' => Module::t('module', 'Электрондық пошта'),
             'auth_key' => Module::t('module', 'Аутентификация кілті'),
             'password_hash' => Module::t('module', 'Құпиясөз хэші'),
             'password_reset_token' => Module::t('module', 'Құпиясөзді қалпына келтіру белгісі'),
-            'email_confirm_token' => Module::t('module', 'Электрондық поштаны растау белгісі'),
+            'organization_id' => Module::t('module', 'Мешіт'),
             'created_at' => Module::t('module', 'Құрылған уақыты'),
             'updated_at' => Module::t('module', 'Жаңартылған уақыты'),
             'status' => Module::t('module', 'Мәртебесі'),
@@ -396,4 +395,14 @@ class User extends BaseUser
     {
         return $this->hasOne(Organization::class, ['id' => 'organization_id']);
     }
+
+    /**
+     * Связь с таблицей `directions` через `user_direction`.
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserDirections()
+    {
+        return $this->hasMany(UserDirection::class, ['user_id' => 'id']);
+    }
+
 }

@@ -139,6 +139,7 @@
             }
 
             hiddenInput.value = [...uploadedUrlList, ...uploadedUrls].join(',');
+            console.log(33, hiddenInput.value)
             form.submit();
         });
         });

@@ -6,6 +6,7 @@ use modules\rbac\Bootstrap as RbacBootstrap;
 use modules\news\Bootstrap as NewsBootstrap;
 use modules\organization\Bootstrap as OrganizationBootstrap;
 use modules\directory\Bootstrap as DirectoryBootstrap;
+use modules\reports\Bootstrap as ReportsBootstrap;
 use modules\rbac\Module;
 use modules\users\models\User;
 use modules\rbac\components\behavior\AccessBehavior;
@@ -32,6 +33,7 @@ return [
         NewsBootstrap::class,
         OrganizationBootstrap::class,
         DirectoryBootstrap::class,
+        ReportsBootstrap::class,
     ],
     'modules' => [
         'users' => [
@@ -51,6 +53,9 @@ return [
             'isBackend' => true
         ],
         'directory' => [
+            'isBackend' => true
+        ],
+        'reports' => [
             'isBackend' => true
         ],
     ],

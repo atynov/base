@@ -26,7 +26,11 @@
         "driftyco/ionicons": "^2.0",
         "yiisoft/yii2-apidoc": "~3.0.6",
         "kartik-v/yii2-widget-datetimepicker": "*",
-        "yii2tech/ar-softdelete": "^1.0@dev"
+        "yii2tech/ar-softdelete": "^1.0@dev",
+        "kartik-v/yii2-widget-select2": "^2.2@dev",
+        "kartik-v/yii2-widget-datepicker": "^1.4@dev",
+        "phpoffice/phpword": "dev-master",
+        "tecnickcom/tcpdf": "dev-main"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

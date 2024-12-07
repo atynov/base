@@ -22,7 +22,6 @@ class m161022_180040_create_table_user extends Migration
             'username' => $this->string()->notNull()->unique(),
             'auth_key' => $this->string(32)->notNull(),
             'password_hash' => $this->string()->notNull(),
-            'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
             'email_confirm_token' => $this->string(),
             'verification_token' => $this->string()

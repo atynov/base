@@ -83,5 +83,19 @@ class Organization extends ActiveRecord
         });
     }
 
+    public static function getList($language = 'kk')
+    {
+        $orgs = static::find()
+            ->select(['name', 'id'])
+            ->indexBy('id')
+            ->column();
+
+        return ArrayHelper::map($orgs, 'id', function ($org) use ($language) {
+            $org->name =  $org->name[$language] ?? $org->name['kk'];
+            return $org;
+        });
+    }
+
+
 
 }

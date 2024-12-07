@@ -11,7 +11,7 @@ return [
     'username' => $params['db']['user'],
     'password' => $params['db']['password'],
     'charset' => 'utf8',
-    'enableSchemaCache' => !YII_DEBUG,
+    'enableSchemaCache' => false,
     'enableQueryCache' => true,
     'schemaCacheDuration' => 3600,
     'schemaCache' => 'cache',

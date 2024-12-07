@@ -5,12 +5,13 @@ use modules\main\Module as MainModule;
 use modules\users\Module as UserModule;
 use modules\rbac\Module as RbacModule;
 use modules\news\Module as NewsModule;
+use modules\reports\Module as ReportsModule;
 use modules\organization\Module as OrganizationModule;
 use modules\directory\Module as DirectoryModule;
 
 
 return [
-    'name' => 'Advanced',
+    'name' => 'Ұлытау облыстық мешіті',
     'timeZone' => 'Asia/Almaty',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -65,6 +66,9 @@ return [
         ],
         'directory' => [
             'class' => DirectoryModule::class
+        ],
+        'reports' => [
+            'class' => ReportsModule::class
         ],
     ]
 ];

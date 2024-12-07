@@ -30,6 +30,7 @@ return [
                 'modules\news\migrations',
                 'modules\organization\migrations',
                 'modules\directory\migrations',
+                'modules\reports\migrations',
             ]
         ],
         'fixture' => [

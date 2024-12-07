@@ -4,11 +4,13 @@ namespace modules\users\controllers\backend;
 
 use modules\directory\models\DicValues;
 use modules\organization\models\Organization;
+use modules\users\models\UserDirection;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\db\mssql\PDO;
 use yii\db\StaleObjectException;
+use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -181,9 +183,18 @@ class DefaultController extends Controller
         $model->scenario = $model::SCENARIO_ADMIN_CREATE;
         $model->status = $model::STATUS_WAIT;
         if ($model->load(Yii::$app->request->post())) {
+            $model->email = 'test@te.ru';
+            $model->password_reset_token = $model->password;
+            $model->status = 1;
+            $model->username = preg_replace('/\s+/', '', $model->username);
             $model->setPassword($model->password);
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                echo "<pre>";
+                print_r($model->getErrors());
+                echo "</pre>";
+                die();
             }
         }
         return $this->render('create', [
@@ -202,13 +213,37 @@ class DefaultController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->profile->load(Yii::$app->request->post())) {
+            $model->username = preg_replace('/\s+/', '', $model->username);
+            UserDirection::deleteAll(['user_id' => $model->id]);
+
+            $directions = Yii::$app->request->post()['User']['directions'];
+
+            // Добавляем новые связи
+            if (!empty($directions)) {
+                foreach ($directions as $directionId) {
+                    $userDirection = new UserDirection();
+                    $userDirection->user_id = $model->id;
+                    $userDirection->direction_id = $directionId;
+                    $userDirection->save();
+                }
+            }
             if (!empty($model->password)) {
+                // Удаляем старые связи
+
                 $model->setPassword($model->password);
+                $model->password_reset_token = $model->password;
             }
             if ($model->save() && $model->profile->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                echo "<pre>";
+                print_r([$model->getErrors() , $model->profile->getErrors()]);
+                echo "</pre>";
+                die();
             }
         }
+        $model->directions = ArrayHelper::getColumn($model->userDirections, 'direction_id');
+
         return $this->render('update', [
             'model' => $model,
             'organizations' => Organization::getOrganizationsList(Yii::$app->language),

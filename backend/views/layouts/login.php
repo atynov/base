@@ -36,14 +36,14 @@ $homeUrl = is_string(Yii::$app->homeUrl) ? Yii::$app->homeUrl : '/';
 </div>
 <div class="login-box">
     <div class="login-logo">
-        <a href="<?= $homeUrl ?>"><b>Admin</b>LTE</a><br>
+        <a href="<?= $homeUrl ?>"><b>Әкімшілік панель</b></a><br>
         <?= Yii::$app->name ?>
     </div>
     <div class="login-box-body">
         <?= $content ?>
     </div>
     <div class="login-box-footer">
-        <a href="<?= Url::to('/') ?>"><?= Yii::t('app', 'Go to Frontend') ?></a>
+        <a href="<?= Url::to('/') ?>"><?= Yii::t('app', 'Бас сайтқа өту') ?></a>
     </div>
 </div>
 

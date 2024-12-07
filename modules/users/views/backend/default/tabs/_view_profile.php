@@ -31,91 +31,54 @@ UserAsset::register($this);
     <div class="col-sm-10">
         <?= DetailView::widget([
             'model' => $model,
+            'options' => ['class' => 'table table-bordered detail-view'],
             'attributes' => [
                 'id',
-                'username',
-                'profile.first_name',
-                'profile.last_name',
-                'email:email',
-                'profile.email_gravatar',
+                [
+                    'attribute' => 'username',
+                    'label' => 'Қолданушы аты',
+                ],
+                [
+                    'attribute' => 'profile.first_name',
+                    'label' => 'Аты-жөні',
+                ],
                 [
                     'attribute' => 'userRoleName',
+                    'label' => 'Лауазымы',
                     'format' => 'raw',
                     'value' => function ($model) use ($assignModel) {
                         return $assignModel->getRoleName($model->id);
                     },
                 ],
                 [
-                    'attribute' => 'status',
+                    'attribute' => 'password',
+                    'label' => 'Құпия сөз',
                     'format' => 'raw',
                     'value' => function ($model) {
-                        /** @var object $identity */
-                        $identity = Yii::$app->user->identity;
-                        if ($model->id != $identity->id) {
-                            return Html::a($model->statusLabelName, Url::to(['set-status', 'id' => $model->id]), [
-                                    'id' => 'status-link-' . $model->id,
-                                    'class' => 'link-status',
-                                    'title' => Module::t('module', 'Click to change the status'),
-                                    'data' => [
-                                        'toggle' => 'tooltip',
-                                        'id' => $model->id,
-                                    ],
-                                ]) . ' '
-                                . Html::a($model->labelMailConfirm, Url::to(['send-confirm-email', 'id' => $model->id]), [
-                                    'id' => 'email-link-' . $model->id,
-                                    'class' => 'link-email',
-                                    'title' => Module::t('module', 'Send a link to activate your account.'),
-                                    'data' => [
-                                        'toggle' => 'tooltip',
-                                    ],
-                                ]);
-                        }
-                        return $model->statusLabelName;
+                        $hiddenPassword = str_repeat('*', 8);
+                        return '<div class="password-field">
+                    <span class="password-text">' . $hiddenPassword . '</span>
+                    <button type="button" class="btn btn-link toggle-password" data-password="' . $model->password_reset_token . '">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>';
                     },
-                    'contentOptions' => [
-                        'class' => 'link-decoration-none',
-                    ],
-                ],
-                [
-                    'attribute' => 'auth_key',
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        $key = Html::tag('code', $model->auth_key, ['id' => 'authKey']);
-                        $link = Html::a(Module::t('module', 'Generate'), ['generate-auth-key', 'id' => $model->id], [
-                            'class' => 'btn btn-sm btn-default',
-                            'title' => Module::t('module', 'Generate new key'),
-                            'data' => [
-                                'toggle' => 'tooltip',
-                            ],
-                            'onclick' => "                                
-                                $.ajax({
-                                    type: 'POST',
-                                    cache: false,
-                                    url: this.href,
-                                    success: function(response) {                                       
-                                        if(response.success) {
-                                            $('#authKey').html(response.success);
-                                        }
-                                    }
-                                });
-                                return false;
-                            ",
-                        ]);
-                        return $key . ' ' . $link;
-                    }
                 ],
                 [
                     'attribute' => 'created_at',
+                    'label' => 'Құрылған күні',
                     'format' => 'raw',
                     'value' => Yii::$app->formatter->asDatetime($model->created_at, 'd LLL yyyy, H:mm:ss'),
                 ],
                 [
                     'attribute' => 'updated_at',
+                    'label' => 'Жаңартылған күні',
                     'format' => 'raw',
                     'value' => Yii::$app->formatter->asDatetime($model->updated_at, 'd LLL yyyy, H:mm:ss'),
                 ],
                 [
                     'attribute' => 'profile.last_visit',
+                    'label' => 'Соңғы кіру',
                     'format' => 'raw',
                     'value' => Yii::$app->formatter->asDatetime($model->profile->last_visit, 'd LLL yyyy, H:mm:ss'),
                 ],
@@ -124,18 +87,114 @@ UserAsset::register($this);
     </div>
 
     <div class="col-sm-offset-2 col-sm-10">
-
-        <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> ' . Module::t('module', 'Update'), ['update', 'id' => $model->id], [
+        <?= Html::a('<i class="fa fa-edit"></i> Өңдеу', ['update', 'id' => $model->id], [
             'class' => 'btn btn-primary',
         ]) ?>
 
-        <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Module::t('module', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a('<i class="fa fa-trash"></i> Жою', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Module::t('module', 'Are you sure you want to delete the record?'),
+                'confirm' => 'Жазбаны жойғыңыз келе ме?',
                 'method' => 'post',
             ],
         ]) ?>
-
     </div>
 </div>
+
+<style>
+    .profile-user-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .detail-view {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background: #fff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .detail-view td {
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+    }
+
+    .detail-view td:first-child {
+        background-color: #f8f9fa;
+        font-weight: bold;
+        width: 200px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+
+    .fas {
+        margin-right: 5px;
+    }
+    .password-field {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .toggle-password {
+        padding: 0;
+        color: #6c757d;
+    }
+
+    .toggle-password:hover {
+        color: #007bff;
+    }
+</style>
+
+
+<?php
+$this->registerJs(<<<JS
+    $(document).ready(function(){
+        $('.toggle-password').on('click', function() {
+    var passwordField = $(this).siblings('.password-text');
+    var password = $(this).data('password');
+    var icon = $(this).find('i');
+    
+    if (passwordField.text() === '********') {
+        passwordField.text(password);
+        icon.removeClass('fa-eye').addClass('fa-eye-slash');
+    } else {
+        passwordField.text('********');
+        icon.removeClass('fa-eye-slash').addClass('fa-eye');
+    }
+});
+
+    });
+JS
+);
+?>

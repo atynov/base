@@ -18,8 +18,8 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'homeUrl' => '/',
-    'language' => 'ru', // en, ru
-    'sourceLanguage' => 'en',
+    'language' => 'kk', // en, ru
+    'sourceLanguage' => 'kk',
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
@@ -30,6 +30,7 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'defaultRoute' => 'main/default/index',
     'components' => [
+        'db' => require __DIR__ . '/db.php',
         'request' => [
             'cookieValidationKey' => '_Mg9l3IesMzkkxVvG1c6_C-eRyzrpe_f',
             'csrfParam' => '_csrf-frontend',

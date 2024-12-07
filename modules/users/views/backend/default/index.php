@@ -113,61 +113,6 @@ $this->registerJs($js, View::POS_END);
                             $view = Yii::$app->controller->view;
                             return $view->render('_avatar_column', ['model' => $data]);
                         },
-                        'headerOptions' => ['width' => '120'],
-                    ],
-                    [
-                        'attribute' => 'email',
-                        'filter' => Html::activeInput('text', $searchModel, 'email', [
-                            'class' => 'form-control',
-                            'placeholder' => Module::t('module', '- мәтін -'),
-                            'data' => [
-                                'pjax' => true,
-                            ],
-                        ]),
-                        'format' => 'email'
-                    ],
-                    [
-                        'attribute' => 'status',
-                        'filter' => Html::activeDropDownList($searchModel, 'status', $searchModel->statusesArray, [
-                            'class' => 'form-control',
-                            'prompt' => Module::t('module', '- бәрі -'),
-                            'data' => [
-                                'pjax' => true,
-                            ],
-                        ]),
-                        'format' => 'raw',
-                        'value' => function ($data) {
-                            /** @var object $identity */
-                            $identity = Yii::$app->user->identity;
-                            if ($data->id !== $identity->id && !$data->isSuperAdmin($data->id)) {
-                                return Html::a($data->statusLabelName, Url::to(['set-status', 'id' => $data->id]), [
-                                        'id' => $data->id,
-                                        'class' => 'link-status',
-                                        'title' => Module::t('module', 'Мәртебені өзгерту үшін басыңыз'),
-                                        'data' => [
-                                            'toggle' => 'tooltip',
-                                            'pjax' => 0,
-                                            'id' => $data->id,
-                                        ],
-                                    ]) . ' ' .
-                                    Html::a($data->labelMailConfirm, Url::to(['send-confirm-email', 'id' => $data->id]), [
-                                        'id' => 'email-link-' . $data->id,
-                                        'class' => 'link-email',
-                                        'title' => Module::t('module', 'Тіркеу сілтемесін жіберу'),
-                                        'data' => [
-                                            'toggle' => 'tooltip',
-                                        ],
-                                    ]);
-                            }
-                            return $data->statusLabelName;
-                        },
-                        'headerOptions' => [
-                            'class' => 'text-center',
-                        ],
-                        'contentOptions' => [
-                            'class' => 'title-column',
-                            'style' => 'width:150px',
-                        ],
                     ],
                     [
                         'attribute' => 'userRoleName',
@@ -182,9 +127,6 @@ $this->registerJs($js, View::POS_END);
                         'value' => function ($data) use ($assignModel) {
                             return $assignModel->getUserRoleName($data->id);
                         },
-                        'contentOptions' => [
-                            'style' => 'width:200px',
-                        ],
                     ],
                     [
                         'attribute' => 'organization_id',
@@ -196,7 +138,6 @@ $this->registerJs($js, View::POS_END);
                             \modules\organization\models\Organization::find()->select(['name', 'id'])->indexBy('id')->column(),
                             ['class' => 'form-control', 'prompt' => Module::t('module', '- барлығы -')]
                         ),
-                        'headerOptions' => ['width' => '200'],
                     ],
                     [
                         'attribute' => 'profile.last_visit',
@@ -210,9 +151,6 @@ $this->registerJs($js, View::POS_END);
                                 ],
                             ]) . '</div></div>',
                         'format' => 'datetime',
-                        'headerOptions' => [
-                            'style' => 'width: 165px;'
-                        ]
                     ],
                     [
                         'class' => 'yii\grid\ActionColumn',

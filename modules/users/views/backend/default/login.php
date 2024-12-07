@@ -22,9 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ]); ?>
 
 <div class="form-group has-feedback">
-    <?= $form->field($model, 'email')->textInput([
+    <?= $form->field($model, 'username')->textInput([
         'class' => 'form-control',
-        'placeholder' => Module::t('module', 'Электрондық пошта')
+        'placeholder' => Module::t('module', 'Логин')
     ])->label(false) ?>
     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 </div>

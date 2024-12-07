@@ -5,6 +5,8 @@ namespace common\models;
 use common\components\ActiveQuery;
 use common\components\ActiveRecord;
 use modules\organization\models\Organization;
+use modules\reports\models\Direction;
+use modules\users\models\UserDirection;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -226,4 +228,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(Organization::class, ['id' => 'organization_id']);
     }
+
+
+
+
 }
